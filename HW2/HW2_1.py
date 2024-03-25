@@ -25,7 +25,6 @@ def parse_response_Uniprot(resp = None):
 def get_ENSEMBL(accessions_list):
 
     json_ids = json.dumps({"ids": accessions_list})
-    print(json_ids)
     server = "https://rest.ensembl.org"
     ext = "/lookup/id"
     headers = {"Content-Type": "application/json", "Accept": "application/json"}
@@ -54,14 +53,15 @@ def parse_response_ENSEMBL(decoded):
 #Function 3
 def parse_ID(ID_list):
 
+
     for ID in ID_list:
-        if not re.search(r'ENS+[A-Z0-9]{11}', 'r' + ID):
+        if not re.search(r'^((ENS[FPTG]\\d{11}(\\.\\d+)?)|(FB\\w{2}\\d{7})|(Y[A-Z]{2}\\d{3}[a-zA-Z](\\-[A-Z])?)|([A-Z_a-z0-9]+(\\.)?(t)?(\\d+)?([a-z])?))$', 'r' + ID):
             break
         if ID_list.index(ID) == len(ID_list)-1:
             return parse_response_ENSEMBL(get_ENSEMBL(accessions_list))
 
     for ID in ID_list:
-        if not re.search(r'\w{6}', 'r' + ID):
+        if not re.search(r'[OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}', 'r' + ID):
             break
         if ID_list.index(ID) == len(ID_list) - 1:
             return parse_response_Uniprot(get_Uniprot(accessions_list))
