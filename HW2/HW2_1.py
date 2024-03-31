@@ -60,7 +60,7 @@ def parse_ID(ID_list):
             return parse_response_Uniprot(get_Uniprot(accessions_list))
 
     for ID in ID_list:
-        if not re.search(r'^((ENS[FPTG]\\d{11}(\\.\\d+)?)|(FB\\w{2}\\d{7})|(Y[A-Z]{2}\\d{3}[a-zA-Z](\\-[A-Z])?)|([A-Z_a-z0-9]+(\\.)?(t)?(\\d+)?([a-z])?))$', 'r' + ID):
+        if not re.search(r'(ENS[a-zA-Z\_]*\d{11}|MGP[a-zA-Z\_]*\d{7})', 'r' + ID):
             break
         if ID_list.index(ID) == len(ID_list)-1:
             return parse_response_ENSEMBL(get_ENSEMBL(accessions_list))
