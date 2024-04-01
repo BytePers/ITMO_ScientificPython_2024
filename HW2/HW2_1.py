@@ -43,9 +43,8 @@ def parse_response_ENSEMBL(decoded):
     for val in decoded:
         acc = decoded[val]['id']
         species = decoded[val]['species']
-        gene = decoded[val]['description']
         type = decoded[val]["object_type"]
-        output[acc] = {'organism':species, 'geneInfo':gene, 'type':type}
+        output[acc] = {'organism':species, 'type':type}
 
     return output
 
@@ -60,7 +59,7 @@ def parse_ID(ID_list):
             return parse_response_Uniprot(get_Uniprot(accessions_list))
 
     for ID in ID_list:
-        if not re.search(r'(ENS[a-zA-Z\_]*\d{11}|MGP[a-zA-Z\_]*\d{7})', 'r' + ID):
+        if not re.search(r'(ENS[a-zA-Z]{0,4}(E|FM|G|GT|P|R|T)\d{11}|MGP[a-zA-Z\_]*\d{7})', 'r' + ID):
             break
         if ID_list.index(ID) == len(ID_list)-1:
             return parse_response_ENSEMBL(get_ENSEMBL(accessions_list))
